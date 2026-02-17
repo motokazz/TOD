@@ -1,0 +1,48 @@
+{
+    "shortCutFolders": [
+        {
+            "name": "Scene",
+            "path": "Assets/AddressableResources/Scene"
+        },
+        {
+            "name": "Cursed_Toys_II",
+            "path": "Assets/Assets/Cursed_Toys_II"
+        },
+        {
+            "name": "Parts",
+            "path": "Assets/Night/RawData/Parts"
+        },
+        {
+            "name": "Enemy",
+            "path": "Assets/Night/RawData/Enemy"
+        },
+        {
+            "name": "MS_tools",
+            "path": "Assets/_motokazu/MS_tools"
+        },
+        {
+            "name": "Shader",
+            "path": "Assets/Night/Shader"
+        },
+        {
+            "name": "RawData",
+            "path": "Assets/Night/RawData"
+        },
+        {
+            "name": "Parts",
+            "path": "Assets/Night/Scripts/App/Entity/Data/Parts"
+        },
+        {
+            "name": "Parts",
+            "path": "Assets/AddressableResources/Entity/Parts"
+        },
+        {
+            "name": "Truck",
+            "path": "Assets/Night/RawData/Truck"
+        },
+        {
+            "name": "test_parts",
+            "path": "Assets/Night/RawData/Parts/test_parts"
+        }
+    ]
+}

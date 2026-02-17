@@ -1,0 +1,41 @@
+Scripts/
+├── Core/
+│   ├── GameManager.cs          // Singleton: 全体制御、残機/ZAP、クリア/ゲームオーバー
+│   ├── FloorManager.cs         // フロアロード/アンロード、宝箱生成、裏表フラグ
+│   └── SaveManager.cs          // ハイスコア/シード保存（オプション）
+├── Data/
+│   ├── FloorData.asset         // ScriptableObject: 60フロア分（配列で1ファイル）
+│   │   // 内容: walls[bool[20,15]], keyPos[Vector2Int], doorPos[], enemySpawns[List], treasureItem[string/ID], conditions[List<IConditionData>]
+│   ├── ItemDatabase.asset      // 60アイテムデータ（ID, effect params, icon/model）
+│   └── EnemyDatabase.asset     // 敵タイプデータ（speed, hp, aiType）
+├── Map/
+│   ├── MapBuilder3D.cs         // FloorDataから壁/床/鍵/扉/スタートpos生成（Prefab Instantiate）
+│   └── GridUtils.cs            // グリッド変換（Vector2Int <-> Vector3）、壁判定Raycast
+├── Player/
+│   ├── PlayerController.cs     // 移動(4dirグリッドLerp)、衝突、死亡/ZAP処理
+│   ├── SwordController.cs      // 抜剣/振る(前方BoxCast攻撃)、抜剣状態フラグ
+│   └── ItemInventory.cs        // 所持アイテム管理、効果適用（マトック回数、ブーツspeed等）
+├── Enemies/
+│   ├── EnemyBase.cs            // Base: HP、移動、死亡ドロップ、接触ダメ
+│   ├── EnemyAI.cs              // 仮想AI（Overrideで派生）
+│   ├── SlimeAI.cs              // ランダム徘徊/ジャンプ
+│   ├── KnightAI.cs             // 壁手前法（右/左壁follow）
+│   ├── MageAI.cs               // プレイヤー視認→呪文投射
+│   └── DragonAI.cs             // 最終ボス専用（炎ブレス、召喚）
+├── Items/
+│   ├── PickupItem.cs           // 3Dモデル+Collider、拾いアニメ
+│   └── ItemEffectBase.cs       // インターフェース: Apply(Player)、例: BreakWall++, Speed*1.5, Invincible等
+├── Conditions/
+│   ├── ICondition.cs           // インターフェース: bool IsMet(FloorManager)
+│   ├── KillCountCondition.cs   // 敵タイプX匹殺す（1F: GreenSlime x3）
+│   ├── TouchWallCondition.cs   // 特定壁/外壁触れる（6F: 最上段）
+│   ├── TimeCondition.cs        // 時間内/停止秒数（14F: 5000以下）
+│   ├── NoKillCondition.cs      // 敵0匹で扉（20F）
+│   └── CustomSequenceCondition.cs // 複雑: 特定ルート/入力（22F: レバー連打）
+├── UI/
+│   ├── UIManager.cs            // Canvas: Floor表示、時間、アイテムアイコン、残機
+│   └── InventoryUI.cs          // ドロップダウン表示（3Dモデル投影）
+└── Utils/
+    ├── Singleton.cs            // テンプレート
+    ├── GridMover.cs            // 共有: Lerp移動アニメ（DOTween可）
+    └── AudioManager.cs         // BGM/SE（オリジナルBGMリッピング推奨）

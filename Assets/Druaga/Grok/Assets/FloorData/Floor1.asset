@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72dc322710794bf428500f3540befb3f, type: 3}
+  m_Name: Floor1
+  m_EditorClassIdentifier: Assembly-CSharp::FloorData
+  floorNumber: 2
+  useProcedural: 1
+  proceduralMapWidth: 15
+  proceduralMapHeight: 15
+  startPos: {x: 6, y: 9}
+  keyPos: {x: 11, y: 2}
+  doorPos: {x: 11, y: 1}
+  treasurePos: {x: 6, y: 9}
+  enemies:
+  - pos: {x: 13, y: 9}
+    enemyId: GreenSlime
+  - pos: {x: 9, y: 5}
+    enemyId: GreenSlime
+  - pos: {x: 11, y: 13}
+    enemyId: GreenSlime
+  - pos: {x: 13, y: 8}
+    enemyId: GreenSlime
+  - pos: {x: 13, y: 8}
+    enemyId: GreenSlime
+  - pos: {x: 13, y: 8}
+    enemyId: GreenSlime
+  - pos: {x: 13, y: 8}
+    enemyId: GreenSlime
+  - pos: {x: 13, y: 8}
+    enemyId: GreenSlime
+  treasureItemId: CopperMattock
+  conditionDatas:
+  - {fileID: 11400000, guid: c829bacf26c6876448eafa765d58f66a, type: 2}
+  nextTableFloor: 0
+  nextBackFloor: 0
+  zapTargetFloors: 

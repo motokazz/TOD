@@ -1,0 +1,135 @@
+Scripts/
+├── Core/
+│   ├── GameManager.cs          // Singleton: 全体制御、残機/ZAP、クリア/ゲームオーバー
+│   ├── FloorManager.cs         // フロアロード/アンロード、宝箱生成、裏表フラグ
+│   └── SaveManager.cs          // ハイスコア/シード保存（オプション）
+├── Data/
+│   ├── FloorData.asset         // ScriptableObject: 60フロア分（配列で1ファイル）
+│   │   // 内容: walls[bool[20,15]], keyPos[Vector2Int], doorPos[], enemySpawns[List], treasureItem[string/ID], conditions[List<IConditionData>]
+│   ├── ItemDatabase.asset      // 60アイテムデータ（ID, effect params, icon/model）
+│   └── EnemyDatabase.asset     // 敵タイプデータ（speed, hp, aiType）
+├── Map/
+│   ├── MapBuilder3D.cs         // FloorDataから壁/床/鍵/扉/スタートpos生成（Prefab Instantiate）
+│   └── GridUtils.cs            // グリッド変換（Vector2Int <-> Vector3）、壁判定Raycast
+├── Player/
+│   ├── PlayerController.cs     // 移動(4dirグリッドLerp)、衝突、死亡/ZAP処理
+│   ├── SwordController.cs      // 抜剣/振る(前方BoxCast攻撃)、抜剣状態フラグ
+│   └── ItemInventory.cs        // 所持アイテム管理、効果適用（マトック回数、ブーツspeed等）
+├── Enemies/
+│   ├── EnemyBase.cs            // Base: HP、移動、死亡ドロップ、接触ダメ
+│   ├── EnemyAI.cs              // 仮想AI（Overrideで派生）
+│   ├── SlimeAI.cs              // ランダム徘徊/ジャンプ
+│   ├── KnightAI.cs             // 壁手前法（右/左壁follow）
+│   ├── MageAI.cs               // プレイヤー視認→呪文投射
+│   └── DragonAI.cs             // 最終ボス専用（炎ブレス、召喚）
+├── Items/
+│   ├── PickupItem.cs           // 3Dモデル+Collider、拾いアニメ
+│   └── ItemEffectBase.cs       // インターフェース: Apply(Player)、例: BreakWall++, Speed*1.5, Invincible等
+├── Conditions/
+│   ├── ICondition.cs           // インターフェース: bool IsMet(FloorManager)
+│   ├── KillCountCondition.cs   // 敵タイプX匹殺す（1F: GreenSlime x3）
+│   ├── TouchWallCondition.cs   // 特定壁/外壁触れる（6F: 最上段）
+│   ├── TimeCondition.cs        // 時間内/停止秒数（14F: 5000以下）
+│   ├── NoKillCondition.cs      // 敵0匹で扉（20F）
+│   └── CustomSequenceCondition.cs // 複雑: 特定ルート/入力（22F: レバー連打）
+├── UI/
+│   ├── UIManager.cs            // Canvas: Floor表示、時間、アイテムアイコン、残機
+│   └── InventoryUI.cs          // ドロップダウン表示（3Dモデル投影）
+└── Utils/
+    ├── Singleton.cs            // テンプレート
+    ├── GridMover.cs            // 共有: Lerp移動アニメ（DOTween可）
+    └── AudioManager.cs         // BGM/SE（オリジナルBGMリッピング推奨）
+	
+	
+	MapBuilder FloorData対応（walls配列例: 1F簡易）
+	
+	// FloorData Editorで以下のように入力（bool[,]はInspector展開）
+public bool[,] walls = new bool[20,15] {
+    {true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true}, // 上端
+    {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
+    // ... (攻略サイト画像からトレース: https://vgmaps.de/maps/arcade/tower-of-druaga.php)
+};
+
+
+
+
+
+以下は、プロジェクト全体で共有されるグリッド関連のユーティリティクラス GridUtils.cs です。
+3D空間でのグリッド移動を扱いやすくするために、座標変換・壁判定・距離計算などをまとめています。
+
+// PlayerController.cs などから
+Vector2Int currentGrid = GridUtils.WorldToGrid(transform.position);
+
+if (Input.GetKeyDown(KeyCode.UpArrow))
+{
+    Vector2Int nextPos = currentGrid + Vector2Int.up;
+    
+    if (GridUtils.IsInBounds(nextPos) && !MapBuilder3D.Instance.IsWallAt(nextPos))
+    {
+        // 移動開始
+        StartCoroutine(MoveTo(GridUtils.GridToWorld(nextPos)));
+    }
+}
+
+// 敵がプレイヤーに近いか判定
+if (GridUtils.ManhattanDistance(enemyGridPos, playerGridPos) <= 3)
+{
+    // 警戒モードなど
+}
+
+
+
+
+CustomSequenceConditions説明
+使用例（よくあるパターン）
+パターン1: 「特定の方向を向いたまま数秒待つ」
+C#// シーケンス例
+sequenceSteps.Add(new SequenceStep 
+{ 
+    actionType = "FaceToward", 
+    targetPos = new Vector2Int(5, 10), 
+    description = "北を向く" 
+});
+
+sequenceSteps.Add(new SequenceStep 
+{ 
+    actionType = "Wait", 
+    waitDuration = 3f, 
+    description = "3秒待つ" 
+});
+→ 待機は FloorManager.Update() や別タイマーで管理し、一定時間経過したら OnActionPerformed("Wait") を呼ぶ必要があります。
+パターン2: 「特定の場所を順番に通過する」
+C#sequenceSteps.Add(new SequenceStep { actionType = "MoveTo", targetPos = new Vector2Int(3, 5), description = "A地点へ" });
+sequenceSteps.Add(new SequenceStep { actionType = "MoveTo", targetPos = new Vector2Int(10, 2), description = "B地点へ" });
+sequenceSteps.Add(new SequenceStep { actionType = "MoveTo", targetPos = new Vector2Int(7, 12), description = "C地点へ" });
+パターン3: 「特定の敵を特定の順番で倒す」
+C#sequenceSteps.Add(new SequenceStep { actionType = "Kill", targetEnemyId = "MageA", description = "最初の魔法使い" });
+sequenceSteps.Add(new SequenceStep { actionType = "Kill", targetEnemyId = "KnightB", description = "次にナイト" });
+連携方法（PlayerController / FloorManager）
+C#// PlayerController.cs の移動処理内
+if (movedToNewPos)
+{
+    foreach (var cond in FloorManager.Instance.GetConditionsOfType<CustomSequenceCondition>())
+    {
+        cond.OnActionPerformed("MoveTo", newGridPos);
+    }
+}
+
+// 向きを変えたとき
+if (facingChanged)
+{
+    foreach (var cond in FloorManager.Instance.GetConditionsOfType<CustomSequenceCondition>())
+    {
+        cond.OnActionPerformed("FaceToward", facingGridPos);
+    }
+}
+注意点
+
+複雑なシーケンス（例：レバー操作連打、特定の敵を連続で倒すなど）は
+必要に応じて actionType を増やしたり、SequenceStep にパラメータを追加してください。
+待機系（Wait）は現在の設計では直接対応が難しいので、
+FloorManager にタイマー管理を追加するか、別の条件クラスと組み合わせるのが現実的です。
+
+これで「非常に特殊な条件」にも柔軟に対応できます。
+ドルアーガの塔では後半になるほどこの手の条件が増えるので、
+最も汎用性の高い条件クラスの一つになります。

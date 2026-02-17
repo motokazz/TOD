@@ -1,0 +1,11 @@
+カテゴリ,スクリプト,役割,キーコード例
+Core,GameManager,ゲームループ制御。StartFloor(1)。死亡→ZAP(現在-ランダム)。60Fクリア→エンド。,```public
+Core,FloorManager,フロアDataロード→MapBuilder.Build()。条件リストUpdateチェック→宝箱生成(startPos)。裏表: treasure取らずクリアで裏フラグ。,List<ICondition> conditions; void Update() { if(All( c.IsMet() )) SpawnTreasure(startPos); }
+Data,FloorData,[CreateAssetMenu] 60エントリ。walls例:1F固定迷路データ（画像トレース）。,"public bool[,] walls = new bool[20,15]; public List<EnemySpawnData> enemies; // {pos, type}"
+Map,MapBuilder3D,壁PrefabをグリッドposにInstantiate。鍵/扉も。,"for(int x=0;x<20;x++) for(int y=0;y<15;y++) if(data.walls[x,y]) Instantiate(wallPrefab, new Vector3(x,0,y), Quaternion.identity);"
+Player,PlayerController,Input.GetKeyDown(Dir)→MoveTo隣マス（壁/敵判定）。剣状態で敵接触OK。,Vector2Int gridPos; void Move(Vector2Int dir) { if(!GridUtils.IsWall(gridPos+dir)) StartCoroutine(LerpTo(gridPos+dir)); }
+Enemies,EnemyBase,Update: ai.Move()。接触: if(player.nosword) KillPlayer(); else Damage().,virtual void UpdateAI() {} public void Die() { enemyManager.KillCount++; Destroy(gameObject); }
+Enemies,KnightAI,壁右側follow（オリジナル挙動再現）。,void UpdateAI() { if(HitWallRight()) TurnLeft(); else MoveForward(); }
+Items,ItemEffectBase,例: JetBootsEffect : speed *=1.5f; Mattock: breakCount +=2;,interface IItemEffect { void Apply(Player p); }
+Conditions,KillCountCondition,1F再現: GreenSlime x3。,public string enemyType; public int count; bool IsMet() => manager.killCounts[enemyType] >= count;
+UI,UIManager,TextMeshProでFloor/Time。アイテム: 3DモデルをRenderTextureでUI表示。,-

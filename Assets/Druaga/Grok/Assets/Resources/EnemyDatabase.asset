@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10b949ca40a2334bab3299ec7120184, type: 3}
+  m_Name: EnemyDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDatabase
+  enemies:
+  - enemyId: GreenSlime
+    enemyName: GreenSlime
+    modelPrefab: {fileID: 5940129045880022772, guid: 977218abf257cfa4496f0a0cde579ce1, type: 3}
+    moveSpeed: 0.5
+    maxHp: 0
+    aiType: 
+    canJump: 0
+    contactDamage: 999
+    attackDamage: 999
+    possibleDropItems: []
+    deathEffectPrefab: {fileID: 0}
+    deathSound: {fileID: 0}
+    displayOrder: 0
+    bodyColor: {r: 0, g: 0.9528302, b: 0.1617311, a: 0}
+  - enemyId: BlackSlime
+    enemyName: BlackSlime
+    modelPrefab: {fileID: 5940129045880022772, guid: 977218abf257cfa4496f0a0cde579ce1, type: 3}
+    moveSpeed: 1
+    maxHp: 0
+    aiType: 
+    canJump: 0
+    contactDamage: 999
+    attackDamage: 999
+    possibleDropItems: []
+    deathEffectPrefab: {fileID: 0}
+    deathSound: {fileID: 0}
+    displayOrder: 0
+    bodyColor: {r: 0.17194732, g: 0.1991812, b: 0.2264151, a: 0}
+  - enemyId: BlueKnight
+    enemyName: BlueKnight
+    modelPrefab: {fileID: 8058069740231339603, guid: 2c0edf39f458e934ab290aa19b088766, type: 3}
+    moveSpeed: 0
+    maxHp: 3
+    aiType: 
+    canJump: 0
+    contactDamage: 999
+    attackDamage: 1
+    possibleDropItems: []
+    deathEffectPrefab: {fileID: 0}
+    deathSound: {fileID: 0}
+    displayOrder: 0
+    bodyColor: {r: 0.29681382, g: 0.31254295, b: 0.5471698, a: 0}
+  - enemyId: Mage
+    enemyName: Mage
+    modelPrefab: {fileID: 8058069740231339603, guid: 2dc89e3a2d323a94d8380709bb5ea713, type: 3}
+    moveSpeed: 0.5
+    maxHp: 1
+    aiType: 
+    canJump: 0
+    contactDamage: 999
+    attackDamage: 999
+    possibleDropItems: []
+    deathEffectPrefab: {fileID: 0}
+    deathSound: {fileID: 0}
+    displayOrder: 0
+    bodyColor: {r: 0.29681382, g: 0.31254295, b: 0.5471698, a: 0}

@@ -1,0 +1,3 @@
+id,title,description,isSecret,requiredConditionIds,rewardType1,value1,rewardType2,value2
+ach_goblin_10,ゴブリン狩りの達人,ゴブリン10体倒す,false,kill_goblin_10,Treasure,100,StatUp,10
+ach_door_master,扉の達人,1F扉通過,true,pass_door_1F,Title,1,,

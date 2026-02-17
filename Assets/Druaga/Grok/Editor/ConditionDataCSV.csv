@@ -1,0 +1,6 @@
+id,type,targetPositionX,targetPositionY,requireKeyAndOpenDoor,requiredCount,targetEnemyIds,description
+kill_goblin_10,KillCount,,,false,10,goblin;elite_goblin,ゴブリン系を合計10体倒す
+pass_secret_door_1f,PassPosition,24,15,true,,,1Fの隠し扉を通過（鍵必須）
+survive_300_sec,Time,,,false,300,,300秒生き延びる
+kill_boss,BossKill,,,false,1,boss_final,最終ボス撃破
+collect_key_fragment,Collect,,,false,5,,鍵の欠片を5つ集める

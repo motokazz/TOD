@@ -1,0 +1,39 @@
+# 公式 + 現実的な追加分
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# 自動生成系
+*.csproj
+*.sln
+*.suo
+*.unityproj
+*.booproj
+*.DS_Store
+*.meta  # ← 空のフォルダ用以外は基本コミットするが、衝突が多い人は除外する人も
+
+# 個人設定
+*.userprefs
+*.pidb
+*.scc
+[Bb]ackups/
+*.bak
+*.swp
+*~.nupkg
+/ReSharper/
+ipch/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio / Rider系
+.vs/
+.idea/
+.vscode/
+
+# パッケージキャッシュ（2022以降増えた）
+Packages/manifest.json  # ← これはコミットする派としない派がいる（後述）
+Packages/packages-lock.json

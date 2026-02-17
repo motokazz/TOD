@@ -1,0 +1,20 @@
+{
+    "shortCuts": [
+        {
+            "name": "Title",
+            "sceneAsset": "Assets/AddressableResources/Scene/Title.unity"
+        },
+        {
+            "name": "TestChapter",
+            "sceneAsset": "Assets/AddressableResources/Scene/TestChapter.unity"
+        },
+        {
+            "name": "work_parts",
+            "sceneAsset": "Assets/_motokazu/work/work_parts/work_parts.unity"
+        },
+        {
+            "name": "ms_viewer",
+            "sceneAsset": "Assets/_motokazu/MS_tools/Scenes/ms_viewer.unity"
+        }
+    ]
+}

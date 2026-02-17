@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d7c017be9c31347bc3d7a042dddb6d, type: 3}
+  m_Name: CustomSequenceCondition
+  m_EditorClassIdentifier: Assembly-CSharp::CustomSequenceCondition
+  conditionName: "\u30AB\u30B9\u30BF\u30E0\u30B7\u30FC\u30B1\u30F3\u30B9"
+  description: "\u7279\u5B9A\u306E\u884C\u52D5\u3092\u9806\u756A\u901A\u308A\u306B\u884C\u3046"
+  sequenceSteps:
+  - actionType: 
+    targetPos: {x: 0, y: 0}
+    targetEnemyId: 
+    waitDuration: 10
+    description: 
+  resetOnWrongStep: 1
+  allowExtraActions: 0

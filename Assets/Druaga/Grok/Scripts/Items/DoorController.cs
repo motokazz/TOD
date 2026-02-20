@@ -9,19 +9,16 @@ public class DoorController : MonoBehaviour
             return;
         }
 
+        if (!FloorManager.Instance.IsDoorOpen) return;
+
         if (other.CompareTag("Player"))
         {
-            Debug.Log("扉に到達！ 次フロアへ移動");
+            // イベント発火（クリア判定はマネージャーに委任）
+            EventManager.Instance?.TriggerPlayerPassedPosition(FloorManager.Instance.CurrentData.doorPos);
+            EventManager.Instance?.TriggerDoorOpened();
 
-            // ★ ここで FloorManager に通知（エラー解消）
-            if (FloorManager.Instance != null)
-            {
-                FloorManager.Instance.OnFloorCleared();
-            }
-            else
-            {
-                Debug.LogError("FloorManager.Instance が null です");
-            }
+            // 元の処理
+            FloorManager.Instance.OnFloorCleared();
         }
     }
 }

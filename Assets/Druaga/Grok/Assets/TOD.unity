@@ -174,6 +174,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &405100081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 405100083}
+  - component: {fileID: 405100082}
+  m_Layer: 0
+  m_Name: EventManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &405100082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405100081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d64e2ab89108e2b40b341fb41ca8225b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventManager
+--- !u!4 &405100083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405100081}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &759508348
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,11 +250,11 @@ MonoBehaviour:
   generator: {fileID: 1558268611}
   conditionManager: {fileID: 1047734567}
   allFloorData:
-  - {fileID: 11400000, guid: 1a44ef6ef4e61f0428107dc04dbfabd1, type: 2}
-  - {fileID: 11400000, guid: 19f191cab73bcbb4da7070484af989d6, type: 2}
   - {fileID: 11400000, guid: 97be98f7b917df0438343ca9d1acb9d2, type: 2}
   - {fileID: 11400000, guid: 2fbf1aaab7cedcc44bc872065c750dab, type: 2}
   - {fileID: 11400000, guid: 076408dbc14e8164daf7595bc794397f, type: 2}
+  - {fileID: 11400000, guid: 1a44ef6ef4e61f0428107dc04dbfabd1, type: 2}
+  - {fileID: 11400000, guid: 19f191cab73bcbb4da7070484af989d6, type: 2}
   - {fileID: 11400000, guid: 97be98f7b917df0438343ca9d1acb9d2, type: 2}
 --- !u!4 &759508350
 Transform:
@@ -1092,6 +1136,7 @@ SceneRoots:
   - {fileID: 368892846}
   - {fileID: 759508350}
   - {fileID: 1558268612}
+  - {fileID: 405100083}
   - {fileID: 2117606541}
   - {fileID: 1047734568}
   - {fileID: 8270384616004379888}

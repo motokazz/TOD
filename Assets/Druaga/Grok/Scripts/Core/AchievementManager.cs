@@ -96,6 +96,54 @@ public class AchievementManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    // AchievementManager.cs に追加
+
+    public void CheckAchievements()
+    {
+        if (activeAchievements == null || activeAchievements.Count == 0) return;
+
+        foreach (var ach in activeAchievements.ToList()) // ToList() でコピー作成（中での削除対策）
+        {
+            bool allMet = true;
+
+            foreach (var condData in ach.requiredConditions)
+            {
+                // ここで実際の条件インスタンスを探すか、FloorManager経由で状態を確認
+                // （あなたの設計によって変わる）
+                var condition = FindConditionInstance(condData); // ← 後述
+
+                if (condition == null || !condition.IsMet(FloorManager.Instance))
+                {
+                    allMet = false;
+                    break;
+                }
+            }
+
+            if (allMet)
+            {
+                UnlockAchievement(ach);
+                activeAchievements.Remove(ach); // 一度達成したらリストから外す（任意）
+                Debug.Log($"アチーブメント達成: {ach.title} ({ach.id})");
+            }
+        }
+    }
+
+    // ヘルパー例（実装はあなたの条件管理に合わせて）
+    private ICondition FindConditionInstance(ConditionData data)
+    {
+        var conditions = FloorManager.Instance?.activeConditions;
+
+        if (conditions == null) return null;
+
+        return conditions.FirstOrDefault(c =>
+        {
+            // ここに実際のマッチングを書く（例）
+            // 仮に ConditionData が ICondition に紐づくフィールドを持っていると仮定
+            return c.GetType().GetProperty("data")?.GetValue(c) == data;
+            // またはもっと単純に：
+            // return true;  // とりあえず全部通す（テスト用）
+        });
+    }
     // UI用
     public bool IsUnlocked(string achId) => unlockedAchievements.Contains(achId);
     public int UnlockedCount => unlockedAchievements.Count;

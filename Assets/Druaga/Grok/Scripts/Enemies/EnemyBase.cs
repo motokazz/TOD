@@ -192,8 +192,10 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void Die()
     {
+        if (isDead) return;
         isDead = true;
         isActive = false;
+
         if (animator) animator.SetTrigger("Die");
         if (audioSource && deathSound)
         {
@@ -202,6 +204,14 @@ public abstract class EnemyBase : MonoBehaviour
         OnEnemyDied?.Invoke(this);
         FloorManager.Instance?.OnEnemyDied(this);
         StartCoroutine(DestroyAfterDelay(0.8f));
+
+        // イベント発火（判定はマネージャーに委任）
+        EventManager.Instance?.TriggerEnemyDied(this);
+        EventManager.Instance?.TriggerEnemyKilled(GetEnemyId());
+
+        // 視覚効果など（そのまま）
+        //base.Die();  // 元のDie処理（エフェクトなど）
+        Destroy(gameObject, 0.5f);  // 遅延破棄
     }
 
     protected virtual IEnumerator DestroyAfterDelay(float delay)
@@ -217,8 +227,7 @@ public abstract class EnemyBase : MonoBehaviour
         if (other.CompareTag("Sword"))
         {
             var swordControl = other.GetComponentInParent<SwordController>();
-            if (swordControl == null) return;
-            TakeDamage(swordControl.currentPower);
+            if (swordControl != null) TakeDamage(swordControl.currentPower);
         }
         if (other.CompareTag("Player"))
         {

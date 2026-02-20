@@ -59,24 +59,31 @@ public class ItemInventory : Singleton<ItemInventory>
     /// </summary>
     public void AddItem(string itemId)
     {
-        if (string.IsNullOrEmpty(itemId)) return;
+        if (ownedItems.ContainsKey(itemId)) return; // 重複防止など
 
         var itemData = ItemDatabase.Instance?.GetItem(itemId);
-        if (itemData == null) return;
+        if (itemData == null)
+        {
+            Debug.LogWarning("アイテムデータが見つかりません: " + itemId);
+            return;
+        }
 
-        if (!ownedItems.ContainsKey(itemId))
+        ownedItems[itemId] = itemData;
+        ownedOrder.Add(itemId);
+
+        // ★ ここで効果適用
+        if (itemData.effect != null)
         {
-            ownedItems.Add(itemId, itemData);
-            ownedOrder.Add(itemId);  // 追加順記録
-            OnItemAdded?.Invoke(itemId);
-            OnInventoryChanged?.Invoke();
-            Debug.Log($"アイテム追加: {itemId}");
+            var player = FindObjectOfType<PlayerController>();
+            if (player != null)
+            {
+                itemData.effect.Apply(player);
+                Debug.Log($"マトック取得 → 効果適用: {itemId}");
+            }
         }
-        var effect = itemData.effect;  // ItemDataにItemEffectBaseを保持
-        if (effect != null)
-        {
-            effect.Apply(FindObjectOfType<PlayerController>());
-        }
+
+        OnItemAdded?.Invoke(itemId);
+        OnInventoryChanged?.Invoke();
     }
 
     /// <summary>

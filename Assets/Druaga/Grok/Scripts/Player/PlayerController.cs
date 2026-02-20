@@ -240,6 +240,8 @@ public class PlayerController : MonoBehaviour
     }
     public void UseMattock()
     {
+
+        
         if (mattockRemainingUses <= 0)
         {
             Debug.Log("マトック残り0回です");
@@ -261,6 +263,16 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("マトック使用回数0！ 効果終了");
         }
+        
+
+        // ... (壁破壊処理)
+        if (true/* 壁破壊成功 */) EventManager.Instance?.TriggerPlayerTouchedWall(frontPos);  // 壁接触通知
+    }
+
+    private void UpdateGridPosition()
+    {
+        currentGridPos = GridUtils.WorldToGrid(transform.position);
+        EventManager.Instance?.TriggerPlayerPassedPosition(currentGridPos);  // 位置通過通知
     }
 
     // 使用キー用コールバック

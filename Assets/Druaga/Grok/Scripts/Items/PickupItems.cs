@@ -62,6 +62,12 @@ public class PickupItem : MonoBehaviour
 
         onPicked?.Invoke();
 
+        // イベント発火（判定はマネージャーに委任）
+        EventManager.Instance?.TriggerItemPicked(itemId);
+        if (isTreasure) EventManager.Instance?.TriggerTreasureTaken();
+        if (isKey) { /* 鍵特有の処理 */ }
+
+        // 元の処理（エフェクトなど）
         if (pickupSound != null)
         {
             AudioSource.PlayClipAtPoint(pickupSound, transform.position);
@@ -72,17 +78,20 @@ public class PickupItem : MonoBehaviour
             Instantiate(pickupEffectPrefab, transform.position, Quaternion.identity);
         }
 
+        if (destroyOnPickup) Destroy(gameObject);
+        
         // 通常アイテム追加
         if (ItemDatabase.Instance != null && ItemDatabase.Instance.Exists(itemId))
         {
             ItemInventory.Instance?.AddItem(itemId);
         }
-
+        /*
         // 鍵・宝箱の特別処理
         if (isKey)
         {
             FloorManager.Instance?.OnKeyPickedUp();
         }
+        */
 
         if (isTreasure)
         {
@@ -112,7 +121,7 @@ public class PickupItem : MonoBehaviour
             itemEffect.Apply(player);
             Debug.Log($"宝箱からアイテム効果適用: {treasureItemId}");
         }
-
+        /*
         if (destroyOnPickup)
         {
             Destroy(gameObject, 0.1f);
@@ -121,6 +130,7 @@ public class PickupItem : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+        */
     }
 
     public void ForcePickup()
